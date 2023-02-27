@@ -2,6 +2,6 @@ public interface Launcher {
 
     void init();
 
-    void start();
+    void run();
 
 }

@@ -1,3 +1,4 @@
+import handler.PacketHandler;
 import handler.TestInboundHandler;
 import handler.TestInboundHandlerTwo;
 import handler.TestOutBoundHandler;
@@ -7,7 +8,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-public class ServerLauncher implements Launcher {
+public class RedisProxyServer implements Launcher {
 
     private static final Integer port = 8081;
 
@@ -15,11 +16,7 @@ public class ServerLauncher implements Launcher {
         //
     }
 
-    public void start() {
-        //
-    }
-
-    public static void main(String[] args) {
+    public void run() {
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);
         NioEventLoopGroup workGroup = new NioEventLoopGroup(16);
@@ -28,6 +25,7 @@ public class ServerLauncher implements Launcher {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
+                        ch.pipeline().addLast(new PacketHandler());
                         ch.pipeline().addLast(new TestOutBoundHandler());
                         ch.pipeline().addLast(new TestInboundHandler());
                         ch.pipeline().addLast(new TestInboundHandlerTwo());

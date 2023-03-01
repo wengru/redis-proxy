@@ -4,4 +4,6 @@ public interface Launcher {
 
     void run();
 
+    void after();
+
 }

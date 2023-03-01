@@ -1,12 +1,12 @@
-package protocol;
+package packet;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
 public abstract class Packet {
 
-    @JSONField(serialize = false, deserialize = false)
-    private Byte version = 1;
+    private transient Byte version = 1;
 
+    @JSONField(serialize = false, deserialize = false)
     public abstract Byte getCommand();
 
 }

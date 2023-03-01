@@ -1,10 +1,11 @@
 package protocol;
 
 import packet.LoginPacket;
+import packet.Packet;
 
 public enum CommandEnum {
 
-    LOGIN(1, LoginPacket.class),
+    LOGIN(0, LoginPacket.class),
     ;
 
     private CommandEnum(Integer code, Class<? extends Packet> type) {

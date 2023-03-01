@@ -1,7 +1,6 @@
 package packet;
 
 import protocol.CommandEnum;
-import protocol.Packet;
 
 public class LoginPacket extends Packet {
 

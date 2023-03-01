@@ -3,7 +3,7 @@ package protocol;
 public enum SerializerEnum {
 
     DEFAULT(0, JsonSerializer.INSTANCE),
-    JSON(1, JsonSerializer.INSTANCE),
+    JSON(0, JsonSerializer.INSTANCE),
     ;
 
     private SerializerEnum(Integer type, Serializer serializer) {

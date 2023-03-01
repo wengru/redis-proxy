@@ -2,6 +2,7 @@ package protocol;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import packet.Packet;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,11 +11,11 @@ public class PacketCodeC {
 
     private static final Integer magicNumber = 0x12345678;
 
-    public static final PacketCodeC INSTANCE = new PacketCodeC();
-
     private static final Map<Byte, Class<? extends Packet>> commandMap = new HashMap<>();
 
     private static final Map<Byte, Serializer> serializerMap = new HashMap<>();
+
+    public static final PacketCodeC INSTANCE = new PacketCodeC();
 
     private PacketCodeC() {
         for (CommandEnum command : CommandEnum.values()) {
@@ -30,6 +31,7 @@ public class PacketCodeC {
         ByteBuf byteBuf = byteBufAllocator.ioBuffer();
         byteBuf.writeInt(magicNumber);
         byteBuf.writeByte(new Integer(1).byteValue());
+        byteBuf.writeByte(new Integer(0).byteValue());
         byteBuf.writeByte(packet.getCommand());
         byte[] bytes = SerializerEnum.DEFAULT.getSerializer().serialize(packet);
         byteBuf.writeInt(bytes.length);

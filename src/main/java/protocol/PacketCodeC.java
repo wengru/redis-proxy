@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class PacketCodeC {
 
-    private static final Integer magicNumber = 0x12345678;
+    public static final Integer magicNumber = 0x12345678;
 
     private static final Map<Byte, Class<? extends Packet>> commandMap = new HashMap<>();
 

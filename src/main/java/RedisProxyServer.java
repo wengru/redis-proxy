@@ -5,6 +5,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import protocol.PacketDecoder;
+import protocol.Spliter;
 
 public class RedisProxyServer implements Launcher {
 
@@ -25,10 +26,9 @@ public class RedisProxyServer implements Launcher {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
+                        ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginRequestHandler());
-                        ch.pipeline().addLast(new TestOutBoundHandlerA());
-                        ch.pipeline().addLast(new TestOutBoundHandlerB());
                     }
                 })
                 .bind(port);

@@ -1,4 +1,4 @@
-package constants;
+package com.project.proxy.constants;
 
 import io.netty.util.AttributeKey;
 

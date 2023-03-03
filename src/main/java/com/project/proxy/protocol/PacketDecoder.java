@@ -1,4 +1,4 @@
-package protocol;
+package com.project.proxy.protocol;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

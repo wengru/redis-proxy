@@ -1,4 +1,4 @@
-package protocol;
+package com.project.proxy.protocol;
 
 import com.alibaba.fastjson.JSON;
 

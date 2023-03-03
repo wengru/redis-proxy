@@ -1,4 +1,4 @@
-package packet;
+package com.project.proxy.packet;
 
 import com.alibaba.fastjson.annotation.JSONField;
 

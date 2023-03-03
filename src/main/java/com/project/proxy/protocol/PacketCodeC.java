@@ -1,8 +1,8 @@
-package protocol;
+package com.project.proxy.protocol;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
-import packet.Packet;
+import com.project.proxy.packet.Packet;
 
 import java.util.HashMap;
 import java.util.Map;

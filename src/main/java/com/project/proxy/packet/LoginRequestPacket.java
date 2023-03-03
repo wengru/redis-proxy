@@ -1,8 +1,8 @@
-package packet;
+package com.project.proxy.packet;
 
-import protocol.CommandEnum;
+import com.project.proxy.protocol.CommandEnum;
 
-public class LoginPacket extends Packet {
+public class LoginRequestPacket extends Packet {
 
     private String username;
 

@@ -22,15 +22,19 @@ public class CommandManager {
     }
 
     public static void start(Channel channel) throws Exception {
-        System.out.println("请输入命令：");
         Scanner scanner = new Scanner(System.in);
         while (true) {
+            System.out.println("请输入命令：");
             String commandType = scanner.next();
             ConsoleCommand command = commandMap.get(commandType);
             if (command == null) {
                 System.out.println("找不到对应的命令");
             }
-            command.execute(scanner, channel);
+            try {
+                command.execute(scanner, channel);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

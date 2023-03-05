@@ -17,10 +17,8 @@ public class Spliter extends LengthFieldBasedFrameDecoder {
     @Override
     protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
         // check magic number
-        int a = in.readerIndex();
-        int b = in.readerIndex();
-        if (in.readerIndex() != PacketCodeC.magicNumber) {
-            ctx.close();
+        if (in.getInt(in.readerIndex()) != PacketCodeC.magicNumber) {
+//            ctx.close();
             return null;
         }
         return super.decode(ctx, in);

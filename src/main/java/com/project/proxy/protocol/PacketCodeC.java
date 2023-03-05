@@ -1,7 +1,6 @@
 package com.project.proxy.protocol;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
 import com.project.proxy.packet.Packet;
 
 import java.util.HashMap;
@@ -9,7 +8,7 @@ import java.util.Map;
 
 public class PacketCodeC {
 
-    public static final Integer magicNumber = 0x12345678;
+    public static final int magicNumber = 0x12345678;
 
     private static final Map<Byte, Class<? extends Packet>> commandMap = new HashMap<>();
 
@@ -26,17 +25,15 @@ public class PacketCodeC {
         }
     }
 
-    public ByteBuf encode(ByteBufAllocator byteBufAllocator, Packet packet) {
+    public void encode(ByteBuf byteBuf, Packet packet) {
         // 创建ByteBuf对象
-        ByteBuf byteBuf = byteBufAllocator.ioBuffer();
         byteBuf.writeInt(magicNumber);
-        byteBuf.writeByte(new Integer(1).byteValue());
-        byteBuf.writeByte(new Integer(0).byteValue());
+        byteBuf.writeByte(new Integer(1).byteValue()); // version todo remove
+        byteBuf.writeByte(new Integer(0).byteValue()); // serializer algorithm
         byteBuf.writeByte(packet.getCommand());
         byte[] bytes = SerializerEnum.DEFAULT.getSerializer().serialize(packet);
         byteBuf.writeInt(bytes.length);
         byteBuf.writeBytes(bytes);
-        return byteBuf;
     }
 
     public Packet decode(ByteBuf byteBuf) {

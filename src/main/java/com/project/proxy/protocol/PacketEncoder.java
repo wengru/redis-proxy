@@ -14,7 +14,7 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
     @Override
     protected void encode(ChannelHandlerContext ctx, Packet msg, ByteBuf out) throws Exception {
         System.out.println("开始编码");
-        PacketCodeC.INSTANCE.encode(ctx.alloc(), msg);
+        PacketCodeC.INSTANCE.encode(out, msg);
     }
 
 }

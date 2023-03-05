@@ -1,6 +1,6 @@
 package com.project.proxy.client.command;
 
-import com.project.proxy.client.packet.LoginRequestPacket;
+import com.project.proxy.packet.LoginRequestPacket;
 import io.netty.channel.Channel;
 
 import java.util.Scanner;
@@ -19,6 +19,11 @@ public class LoginCommand implements ConsoleCommand {
         LoginRequestPacket packet = new LoginRequestPacket();
         packet.setUsername(username);
         channel.writeAndFlush(packet);
+        try {
+            Thread.sleep(1000L);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

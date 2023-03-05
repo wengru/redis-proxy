@@ -32,9 +32,9 @@ public class ClientLauncher implements Launcher {
                     @Override
                     protected void initChannel(SocketChannel ch) {
                         ch.pipeline().addLast(new Spliter());
-                        ch.pipeline().addLast(new PacketEncoder());
                         ch.pipeline().addLast(new LoginResponseHandler());
-                        ch.pipeline().addLast(new TestOutBoundHandler());
+//                        ch.pipeline().addLast(new TestOutBoundHandler());
+                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
         bootstrap.connect(HOST, PORT).addListener(future -> {

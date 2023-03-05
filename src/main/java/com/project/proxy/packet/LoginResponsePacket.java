@@ -1,4 +1,4 @@
-package com.project.proxy.client.packet;
+package com.project.proxy.packet;
 
 /**
  * @author cst
@@ -6,9 +6,19 @@ package com.project.proxy.client.packet;
  */
 public class LoginResponsePacket {
 
+    private Boolean success;
+
     private String uid;
 
     private String username;
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
+    }
 
     public String getUid() {
         return uid;

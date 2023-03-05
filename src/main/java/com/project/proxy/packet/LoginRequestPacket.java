@@ -2,20 +2,31 @@ package com.project.proxy.packet;
 
 import com.project.proxy.protocol.CommandEnum;
 
-public class LoginRequestPacket extends Packet {
+public class LoginRequestPacket extends RequestPacket {
 
-    private String username;
+    private String account;
 
-    public String getUsername() {
-        return username;
+    private String password;
+
+    public String getAccount() {
+        return account;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public Byte getCommand() {
         return CommandEnum.LOGIN.getCode().byteValue();
     }
+
 }

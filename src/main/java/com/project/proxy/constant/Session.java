@@ -1,4 +1,4 @@
-package com.project.proxy.constants;
+package com.project.proxy.constant;
 
 public class Session {
 

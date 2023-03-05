@@ -1,10 +1,10 @@
 package com.project.proxy;
 
+import com.project.proxy.constant.Attributes;
 import com.project.proxy.handler.*;
 import com.project.proxy.protocol.PacketDecoder;
 import com.project.proxy.protocol.Spliter;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -32,12 +32,15 @@ public class RedisProxyServer implements Launcher {
                 .option(ChannelOption.SO_BACKLOG, SO_BACKLOG)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .childOption(ChannelOption.TCP_NODELAY, true)
+                .attr(Attributes.LOGIN, false) // 默认未登录
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginRequestHandler());
+                        ch.pipeline().addLast(new AuthHandler());
+                        ch.pipeline().addLast(new MessageHandler());
                     }
                 });
         serverBootstrap.bind(PORT).addListener(future -> {

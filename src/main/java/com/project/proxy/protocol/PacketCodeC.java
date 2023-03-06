@@ -1,5 +1,6 @@
 package com.project.proxy.protocol;
 
+import com.project.proxy.packet.LoginResponsePacket;
 import io.netty.buffer.ByteBuf;
 import com.project.proxy.packet.Packet;
 
@@ -54,7 +55,7 @@ public class PacketCodeC {
         int length = byteBuf.readInt();
         byte[] bytes = new byte[length];
         byteBuf.readBytes(bytes);
-        return serializer.deSerialize(bytes, commandPacket);
+        return serializer.deSerialize(bytes, LoginResponsePacket.class);
     }
 
 }

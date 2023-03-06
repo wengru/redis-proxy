@@ -3,6 +3,7 @@ package com.project.proxy;
 import com.project.proxy.constant.Attributes;
 import com.project.proxy.handler.*;
 import com.project.proxy.protocol.PacketDecoder;
+import com.project.proxy.protocol.PacketEncoder;
 import com.project.proxy.protocol.Spliter;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -32,7 +33,7 @@ public class RedisProxyServer implements Launcher {
                 .option(ChannelOption.SO_BACKLOG, SO_BACKLOG)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .childOption(ChannelOption.TCP_NODELAY, true)
-                .attr(Attributes.LOGIN, false) // 默认未登录
+                .childAttr(Attributes.LOGIN, false) // 默认未登录
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
@@ -41,6 +42,7 @@ public class RedisProxyServer implements Launcher {
                         ch.pipeline().addLast(new LoginRequestHandler());
                         ch.pipeline().addLast(new AuthHandler());
                         ch.pipeline().addLast(new MessageHandler());
+                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
         serverBootstrap.bind(PORT).addListener(future -> {

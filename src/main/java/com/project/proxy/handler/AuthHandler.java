@@ -17,9 +17,10 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
         if (!ctx.channel().attr(Attributes.LOGIN).get()) {
             LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
             loginResponsePacket.setSuccess(false);
-            ctx.writeAndFlush(loginResponsePacket);
+            ctx.channel().writeAndFlush(loginResponsePacket);
+        } else {
+            super.channelRead(ctx, msg);
         }
-        super.channelRead(ctx, msg);
     }
 
 }

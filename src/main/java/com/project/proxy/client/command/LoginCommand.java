@@ -25,8 +25,7 @@ public class LoginCommand implements ConsoleCommand {
         try {
             // 等待1秒后执行下一条命令
             Thread.sleep(1000L);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignore) {
         }
     }
 

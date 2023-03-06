@@ -2,6 +2,7 @@ package com.project.proxy.client;
 
 import com.project.proxy.client.command.ConsoleCommand;
 import com.project.proxy.client.command.LoginCommand;
+import com.project.proxy.client.command.MessageCommand;
 import io.netty.channel.Channel;
 
 import java.util.HashMap;
@@ -14,11 +15,12 @@ import java.util.Scanner;
  */
 public class CommandManager {
 
-    private static Map<String, ConsoleCommand> commandMap = new HashMap<>();
+    private static Map<String, ConsoleCommand> commandMap;
 
     static {
         commandMap = new HashMap<>();
         commandMap.put("login", new LoginCommand());
+        commandMap.put("message", new MessageCommand());
     }
 
     public static void start(Channel channel) throws Exception {

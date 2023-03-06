@@ -7,32 +7,33 @@ import com.project.proxy.exception.BusinessException;
 import com.project.proxy.exception.PacketException;
 import com.project.proxy.packet.LoginRequestPacket;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.UUID;
 
-public class LoginRequestHandler extends ChannelInboundHandlerAdapter {
+public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket packet) throws Exception {
         // find account info
         LoginResponsePacket responsePacket = new LoginResponsePacket();
         try {
-            UserInfo userInfo = findUserInfo(msg);
+            UserInfo userInfo = findUserInfo(packet);
             ctx.channel().attr(Attributes.SESSION).set(userInfo);
             responsePacket.setSuccess(true);
             responsePacket.setUid(userInfo.getUid());
             responsePacket.setUsername(userInfo.getUsername());
-        } catch (BusinessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             responsePacket.setSuccess(false);
+            responsePacket.setMsg(e.getMessage());
         }
         ctx.writeAndFlush(responsePacket);
     }
 
     private UserInfo findUserInfo(Object msg) throws Exception {
         if (!(msg instanceof LoginRequestPacket)) {
-            throw new BusinessException();
+            throw new Exception("请求错误");
         }
         System.out.println("用户：" + ((LoginRequestPacket) msg).getAccount() + "开始登录");
         // todo 查询数据库
@@ -41,7 +42,7 @@ public class LoginRequestHandler extends ChannelInboundHandlerAdapter {
         userInfo.setAccount("test");
         userInfo.setUsername("admin");
         if (userInfo == null) {
-            throw new PacketException();
+            throw new Exception("用户不存在");
         }
         return userInfo;
     }

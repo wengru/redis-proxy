@@ -1,6 +1,8 @@
 package com.project.proxy.client;
 
 import com.project.proxy.Launcher;
+import com.project.proxy.handler.MessageHandler;
+import com.project.proxy.protocol.PacketDecoder;
 import com.project.proxy.protocol.PacketEncoder;
 import com.project.proxy.protocol.Spliter;
 import io.netty.bootstrap.Bootstrap;
@@ -32,8 +34,9 @@ public class ClientLauncher implements Launcher {
                     @Override
                     protected void initChannel(SocketChannel ch) {
                         ch.pipeline().addLast(new Spliter());
+                        ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponseHandler());
-//                        ch.pipeline().addLast(new TestOutBoundHandler());
+                        ch.pipeline().addLast(new MessageHandler());
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 });

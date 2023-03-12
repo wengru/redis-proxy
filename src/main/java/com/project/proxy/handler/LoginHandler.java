@@ -3,15 +3,21 @@ package com.project.proxy.handler;
 import com.project.proxy.packet.LoginResponsePacket;
 import com.project.proxy.constant.Attributes;
 import com.project.proxy.entity.UserInfo;
-import com.project.proxy.exception.BusinessException;
-import com.project.proxy.exception.PacketException;
 import com.project.proxy.packet.LoginRequestPacket;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.UUID;
 
-public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+@ChannelHandler.Sharable
+public class LoginHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+
+    public static final LoginHandler INSTANCE = new LoginHandler();
+
+    private LoginHandler() {
+        // do nothing
+    }
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket packet) throws Exception {
@@ -20,6 +26,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         try {
             UserInfo userInfo = findUserInfo(packet);
             ctx.channel().attr(Attributes.SESSION).set(userInfo);
+            ctx.channel().attr(Attributes.LOGIN).set(true);
             responsePacket.setSuccess(true);
             responsePacket.setUid(userInfo.getUid());
             responsePacket.setUsername(userInfo.getUsername());
@@ -28,7 +35,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
             responsePacket.setSuccess(false);
             responsePacket.setMsg(e.getMessage());
         }
-        ctx.writeAndFlush(responsePacket);
+        ctx.channel().writeAndFlush(responsePacket);
     }
 
     private UserInfo findUserInfo(Object msg) throws Exception {

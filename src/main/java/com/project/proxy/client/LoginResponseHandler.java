@@ -2,7 +2,6 @@ package com.project.proxy.client;
 
 import com.project.proxy.packet.LoginResponsePacket;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {

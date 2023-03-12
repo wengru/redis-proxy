@@ -2,8 +2,6 @@ package com.project.proxy;
 
 import com.project.proxy.constant.Attributes;
 import com.project.proxy.handler.*;
-import com.project.proxy.protocol.PacketDecoder;
-import com.project.proxy.protocol.PacketEncoder;
 import com.project.proxy.protocol.Spliter;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -38,11 +36,10 @@ public class RedisProxyServer implements Launcher {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
                         ch.pipeline().addLast(new Spliter());
-                        ch.pipeline().addLast(new PacketDecoder());
-                        ch.pipeline().addLast(new LoginRequestHandler());
-                        ch.pipeline().addLast(new AuthHandler());
-                        ch.pipeline().addLast(new MessageHandler());
-                        ch.pipeline().addLast(new PacketEncoder());
+                        ch.pipeline().addLast(PacketCodeCHandler.INSTANCE);
+                        ch.pipeline().addLast(LoginHandler.INSTANCE);
+                        ch.pipeline().addLast(AuthHandler.INSTANCE);
+                        ch.pipeline().addLast(DispatchHandler.INSTANCE);
                     }
                 });
         serverBootstrap.bind(PORT).addListener(future -> {

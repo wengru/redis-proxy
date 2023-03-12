@@ -49,7 +49,7 @@ public class LoginResponsePacket extends Packet {
     }
 
     public Byte getCommand() {
-        return CommandEnum.LOGIN.getCode().byteValue();
+        return CommandEnum.LOGIN_RESPONSE.getCode().byteValue();
     }
 
 }

@@ -1,6 +1,6 @@
 package com.project.proxy.protocol;
 
-import com.project.proxy.packet.LoginResponsePacket;
+import com.project.proxy.constant.Default;
 import io.netty.buffer.ByteBuf;
 import com.project.proxy.packet.Packet;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class PacketCodeC {
 
-    public static final int magicNumber = 0x12345678;
+    public static final int magicNumber = 0x12345678; // todo
 
     private static final Map<Byte, Class<? extends Packet>> commandMap = new HashMap<>();
 
@@ -17,7 +17,8 @@ public class PacketCodeC {
 
     public static final PacketCodeC INSTANCE = new PacketCodeC();
 
-    private PacketCodeC() {
+    static {
+        System.out.println("........");
         for (CommandEnum command : CommandEnum.values()) {
             commandMap.put(command.getCode().byteValue(), command.getType());
         }
@@ -26,11 +27,15 @@ public class PacketCodeC {
         }
     }
 
+    private PacketCodeC() {
+        // do nothing
+    }
+
     public void encode(ByteBuf byteBuf, Packet packet) {
         // 创建ByteBuf对象
         byteBuf.writeInt(magicNumber);
-        byteBuf.writeByte(new Integer(1).byteValue()); // version todo remove
-        byteBuf.writeByte(new Integer(0).byteValue()); // serializer algorithm
+        byteBuf.writeByte(Default.VERSION); // version
+        byteBuf.writeByte(Default.SERIALIZER_ALGORITHM); // serializer algorithm
         byteBuf.writeByte(packet.getCommand());
         byte[] bytes = SerializerEnum.DEFAULT.getSerializer().serialize(packet);
         byteBuf.writeInt(bytes.length);
@@ -47,15 +52,15 @@ public class PacketCodeC {
         Serializer serializer = serializerMap.get(serializeAlgorithm);
         // command
         Byte command = byteBuf.readByte();
-        Class<? extends Packet> commandPacket =  commandMap.get(command);
+        Class<? extends Packet> commandPacket = commandMap.get(command);
         if (serializer == null || commandPacket == null) {
             return null;
         }
-        // 数据包长度
+        // length of packet
         int length = byteBuf.readInt();
         byte[] bytes = new byte[length];
         byteBuf.readBytes(bytes);
-        return serializer.deSerialize(bytes, LoginResponsePacket.class);
+        return serializer.deSerialize(bytes, commandPacket);
     }
 
 }

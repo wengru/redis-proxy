@@ -1,13 +1,13 @@
 package com.project.proxy.protocol;
 
-import com.project.proxy.packet.LoginRequestPacket;
-import com.project.proxy.packet.MessageRequestPacket;
-import com.project.proxy.packet.Packet;
+import com.project.proxy.packet.*;
 
 public enum CommandEnum {
 
-    LOGIN(0, LoginRequestPacket.class),
-    MESSAGE(1, MessageRequestPacket.class)
+    LOGIN_REQUEST(0, LoginRequestPacket.class),
+    LOGIN_RESPONSE(1, LoginResponsePacket.class),
+    MESSAGE_REQUEST(2, MessageRequestPacket.class),
+    MESSAGE_RESPONSE(3, MessageResponsePacket.class)
     ;
 
     private CommandEnum(Integer code, Class<? extends Packet> type) {

@@ -20,7 +20,7 @@ public class MessageRequestPacket extends RequestPacket {
 
     @Override
     public Byte getCommand() {
-        return CommandEnum.MESSAGE.getCode().byteValue();
+        return CommandEnum.MESSAGE_REQUEST.getCode().byteValue();
     }
 
 }

@@ -1,10 +1,12 @@
 package com.project.proxy.packet;
 
+import com.project.proxy.protocol.CommandEnum;
+
 /**
  * @author hanxin
  * @date 2023/3/5 23:47
  */
-public class MessageResponsePacket {
+public class MessageResponsePacket extends Packet {
 
     private String message;
 
@@ -14,6 +16,11 @@ public class MessageResponsePacket {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public Byte getCommand() {
+        return CommandEnum.MESSAGE_RESPONSE.getCode().byteValue();
     }
 
 }

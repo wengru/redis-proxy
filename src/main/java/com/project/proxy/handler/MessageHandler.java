@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.project.proxy.packet.MessageRequestPacket;
 import com.project.proxy.packet.MessageResponsePacket;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 /**
@@ -13,11 +12,17 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 public class MessageHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
 
+    public static final MessageHandler INSTANCE = new MessageHandler();
+
+    private MessageHandler() {
+        // do nothing
+    }
+
     @Override
     public void channelRead0(ChannelHandlerContext ctx, MessageRequestPacket msg) throws Exception {
         System.out.println("收到消息" + JSON.toJSONString(msg.getMessage()));
         MessageResponsePacket responsePacket = new MessageResponsePacket();
         responsePacket.setMessage(msg.getMessage());
-        ctx.writeAndFlush(msg);
+        ctx.channel().writeAndFlush(responsePacket);
     }
 }

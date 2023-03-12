@@ -1,10 +1,18 @@
-package com.project.proxy.client;
+package com.project.proxy.client.handler;
 
-import com.project.proxy.packet.LoginResponsePacket;
+import com.project.proxy.packet.response.LoginResponsePacket;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+@ChannelHandler.Sharable
 public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
+
+    public static final LoginResponseHandler INSTANCE = new LoginResponseHandler();
+
+    private LoginResponseHandler() {
+        // do nothing
+    }
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, LoginResponsePacket packet) {

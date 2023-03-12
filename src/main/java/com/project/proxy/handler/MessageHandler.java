@@ -1,8 +1,8 @@
 package com.project.proxy.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.project.proxy.packet.MessageRequestPacket;
-import com.project.proxy.packet.MessageResponsePacket;
+import com.project.proxy.packet.request.MessageRequestPacket;
+import com.project.proxy.packet.response.MessageResponsePacket;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 

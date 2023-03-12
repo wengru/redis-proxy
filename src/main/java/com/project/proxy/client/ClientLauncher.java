@@ -1,7 +1,11 @@
 package com.project.proxy.client;
 
 import com.project.proxy.Launcher;
-import com.project.proxy.handler.MessageHandler;
+import com.project.proxy.client.handler.HeartBeatTimerHandler;
+import com.project.proxy.client.handler.LoginResponseHandler;
+import com.project.proxy.client.handler.MessageResponseHandler;
+import com.project.proxy.handler.IdleDetectHandler;
+import com.project.proxy.handler.PacketCodeCHandler;
 import com.project.proxy.protocol.PacketDecoder;
 import com.project.proxy.protocol.PacketEncoder;
 import com.project.proxy.protocol.Spliter;
@@ -33,11 +37,12 @@ public class ClientLauncher implements Launcher {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) {
+                        ch.pipeline().addLast(new IdleDetectHandler());
                         ch.pipeline().addLast(new Spliter());
-                        ch.pipeline().addLast(new PacketDecoder());
-                        ch.pipeline().addLast(new LoginResponseHandler());
-                        ch.pipeline().addLast(new MessageResponseHandler());
-                        ch.pipeline().addLast(new PacketEncoder());
+                        ch.pipeline().addLast(PacketCodeCHandler.INSTANCE);
+                        ch.pipeline().addLast(LoginResponseHandler.INSTANCE);
+                        ch.pipeline().addLast(MessageResponseHandler.INSTANCE);
+                        ch.pipeline().addLast(new HeartBeatTimerHandler());
                     }
                 });
         bootstrap.connect(HOST, PORT).addListener(future -> {

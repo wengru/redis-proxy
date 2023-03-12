@@ -1,8 +1,7 @@
 package com.project.proxy.handler;
 
 import com.project.proxy.constant.Attributes;
-import com.project.proxy.packet.LoginRequestPacket;
-import com.project.proxy.packet.LoginResponsePacket;
+import com.project.proxy.packet.response.LoginResponsePacket;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

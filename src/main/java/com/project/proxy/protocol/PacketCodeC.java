@@ -18,7 +18,6 @@ public class PacketCodeC {
     public static final PacketCodeC INSTANCE = new PacketCodeC();
 
     static {
-        System.out.println("........");
         for (CommandEnum command : CommandEnum.values()) {
             commandMap.put(command.getCode().byteValue(), command.getType());
         }

@@ -1,5 +1,6 @@
-package com.project.proxy.packet;
+package com.project.proxy.packet.request;
 
+import com.project.proxy.packet.RequestPacket;
 import com.project.proxy.protocol.CommandEnum;
 
 /**

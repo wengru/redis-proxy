@@ -1,6 +1,6 @@
 package com.project.proxy.client.command;
 
-import com.project.proxy.packet.LoginRequestPacket;
+import com.project.proxy.packet.request.LoginRequestPacket;
 import io.netty.channel.Channel;
 
 import java.util.Scanner;

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <property name="log.level" value="debug"></property>
+    <property name="log.maxHistory" value="30"></property>
+    <property name="log.filePath" value="${user.dir}/logs/"></property>
+    <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}[%thread]%-5level%logger{50} - %msg%n"></property>
+
+    <!--控制台设置-->
+    <!--  appender主要用来指定输出介质是什么，设置consoleAppender媒介，指定输出到控制台-->
+    <!-- 相当于一个layout（将envent事件转换为byte数组），但是它即负责转换字符串，也负责输入到日志文件中 -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 定义格式 (引用变量)-->
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- DEBUG-->
+    <!--设置日志文件随着size的增大会滚动出新的文件，或者随着时间推移按天、按月生成新的文件-->
+    <appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--文件路径-->
+        <file>${log.filePath}/debug.log</file>
+        <!--设置滚动策略,这里设置为基于时间滚动, 这里设置为天-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy" >
+            <!-- 文件名称-->
+            <fileNamePattern>${log.filePath}/debug/debug.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!--文件最大保存历史数量 设置保存30个-->
+            <maxHistory>${log.maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <!-- 过滤器 过滤level为DEBUG的日志信息 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- INFO-->
+    <!--设置日志文件随着size的增大会滚动出新的文件，或者随着时间推移按天、按月生成新的文件-->
+    <appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--文件路径-->
+        <file>${log.filePath}/info.log</file>
+        <!--设置滚动策略,这里设置为基于时间滚动, 这里设置为天-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy" >
+            <!-- 文件名称-->
+            <fileNamePattern>${log.filePath}/info/info.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!--文件最大保存历史数量-->
+            <maxHistory>${log.maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <!-- 过滤器 过滤level为INFO的日志信息 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- ERROR-->
+    <!--设置日志文件随着size的增大会滚动出新的文件，或者随着时间推移按天、按月生成新的文件-->
+    <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--文件路径-->
+        <file>${log.filePath}/error.log</file>
+        <!--设置滚动策略,这里设置为基于时间滚动, 这里设置为天-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy" >
+            <!-- 文件名称-->
+            <fileNamePattern>${log.filePath}/error/error.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!--文件最大保存历史数量 -->
+            <maxHistory>${log.maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <!-- 过滤器 过滤level为INFO的日志信息 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 主要用来存放日志对象，同时告诉logback需要关注哪个package下面的日志信息-->
+    <!--name指定关注那个package，我们设置整个工程下-->
+    <!--level告诉logback只记录哪个level以上的信息-->
+    <!-- 指定记录的package，${log.level}指定哪个level以上，addtivity默认为true，
+    会将父类root里的appender-ref也会放到自己的logger中 -->
+    <!-- 注：一个类只能定义一个logger -->
+    <logger name="com.cxsn" level="${log.level}" additivity="true">
+        <!-- 和Appender绑定-->
+        <appender-ref ref="debugAppender"></appender-ref>
+        <appender-ref ref="infoAppender"></appender-ref>
+        <appender-ref ref="errorAppender"></appender-ref>
+    </logger>
+    <!-- 特殊的logger，如果logger的level没有指定，默认会继承root的level -->
+    <root level="info">
+        <appender-ref ref="consoleAppender"></appender-ref>
+    </root>
+
+</configuration>

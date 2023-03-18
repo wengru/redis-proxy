@@ -9,8 +9,12 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RedisProxyServer implements Launcher {
+
+    Logger logger = LoggerFactory.getLogger(RedisProxyServer.class);
 
     private static final int PORT = 8081;
 
@@ -44,6 +48,7 @@ public class RedisProxyServer implements Launcher {
                         ch.pipeline().addLast(DispatchHandler.INSTANCE);
                     }
                 });
+        logger.info("应用开始启动");
         serverBootstrap.bind(PORT).addListener(future -> {
             if (future.isSuccess()) {
                 System.out.println("服务端启动成功，端口：" + PORT);

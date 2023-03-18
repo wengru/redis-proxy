@@ -1,7 +1,6 @@
 package com.project.proxy.client.handler;
 
 import com.project.proxy.packet.request.HeartBeatRequestPacket;
-import com.project.proxy.packet.response.HeartBeatResponsePacket;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -13,12 +12,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class HeartBeatTimerHandler extends ChannelInboundHandlerAdapter {
 
+    // 维持30秒的心跳
     private final int HEART_BEAT_INTERVAL = 30;
-
-//    @Override
-//    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-//        ctx.writeAndFlush(new HeartBeatResponsePacket());
-//    }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
